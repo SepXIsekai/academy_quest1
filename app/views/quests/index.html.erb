@@ -1,0 +1,25 @@
+<div>
+  <div class="mb-10">
+    <%= form_with model: @quest, url: quests_path, method: :post, local: true, html: { multipart: true } do |form| %>
+      <%= form.label :name, class: "relative font-semibold text-lg md:text-lg lg:text-xl text-black" do %>Display Name<span class="absolute -top-1 -right-2 text-red-500 text-xs">*</span>
+      <% end %>
+      <%= form.text_field :name, required: true, placeholder: "Type here", class: "input w-full border-gray-300 rounded-md shadow-none focus:outline-none focus:border-b-1 focus:border-primary transition duration-300 text-lg mt-4" %>
+      <div class="flex justify-center gap-[2vw] py-4 mt-20">
+        <%= form.submit  class: "btn w-[130px] md:w-[130px] lg:w-[160px] lg:h-[50px] bg-[#3749C0] text-white hover:bg-secondary rounded-[7px] lg:text-lg" %>
+      </div>
+    </div>
+  <% end %>
+  <ul>
+    <% @quests.each do |item| %>
+      <li class="flex items-center gap-2">
+        <%= form_with url: toggle_status_quest_path(item), method: :patch, local: true do %>
+          <%= check_box_tag 'status', '1', item.status, onchange: 'this.form.submit()' %>
+        <% end %>
+        <span class="<%= 'line-through text-gray-400' if item.status %> transition-all duration-200">
+          <%= item.name %>
+        </span>
+        <%= button_to "Delete", quest_path(item), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm ml-2" %>
+      </li>
+    <% end %>
+  </ul>
+</div>
