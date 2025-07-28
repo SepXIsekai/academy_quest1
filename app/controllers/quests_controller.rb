@@ -1,7 +1,7 @@
 class QuestsController < ApplicationController
   before_action :set_quest, only: [ :destroy, :toggle_status ]
   def index
-    @quests = Quest.all
+    @quests = Quest.order(created_at: :desc)
     @quest = Quest.new
   end
 
